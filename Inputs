@@ -10,6 +10,9 @@ while encryptOrDecrypt == '':
 text2encrypt = input("Enter the text to be converted: ").upper()
 text2encryptSplit = []
 encryptedSplit = []
+encryptedSplit2 = []
+decryptedSplit = []
+decryptedSplit2 = []
 encryptedText = ""
 decryptedText = ""
 for letter in text2encrypt:
@@ -57,13 +60,19 @@ for rotor, position in rotors.items():
 
 if encryptOrDecrypt == "D":
     for letter in text2encryptSplit:
-        decryptedText += ankeys[rotor1.index(letter)]
+        decryptedText += ankeys[rotor3.index(ankeys[rotor2.index(ankeys[rotor1.index(letter)])])]
         rotor1 = advanceRotor(rotor1)
+        counter += 1
+        if counter == 26:
+            rotor2 = advanceRotor(rotor2)
+            counter = 1
+    print(decryptedText)
 else:
     for letter in text2encryptSplit:
-        encryptedText += rotor1[alphanums[letter]]
+        encryptedText += rotor1[alphanums[rotor2[alphanums[rotor3[alphanums[letter]]]]]]
         rotor1 = advanceRotor(rotor1)
-
-
-print(encryptedText)
-print(decryptedText)
+        counter += 1
+        if counter == 26:
+            rotor2 = advanceRotor(rotor2)
+            counter = 1
+    print(encryptedText)
