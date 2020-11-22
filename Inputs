@@ -1,0 +1,46 @@
+text2encrypt = input("Enter the text to be encrypted: ").upper()
+text2encryptSplit = []
+for letter in text2encrypt:
+    if letter not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        text2encryptSplit.append('X')
+    else:
+        text2encryptSplit.append(letter)
+rotors = {1: 0, 2: 0, 3: 0}
+rotorsLeft = [1, 2, 3]
+rotorOrder = []
+rotorOrderInput = 0
+counter = 1
+rotor1 = ["E", "K", "M", "F", "L", "G", "D", "Q", "V", "Z", "N", "T", "O", "W", "Y", "H", "X", "U", "S", "P", "A", "I", "B", "R", "C", "J"]
+rotor2 = ["A", "J", "D", "K", "S", "I", "R", "U", "X", "B", "L", "H", "W", "T", "M", "C", "Q", "G", "Z", "N", "P", "Y", "F", "V", "O", "E"]
+rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "T", "X", "V", "Z", "N", "Y", "E", "I", "W", "G", "A", "K", "M", "U", "S", "Q", "O"]
+###ROTORS NOT YET IN USE###
+###rotor4 = ["E", "S", "O", "V", "P", "Z", "J", "A", "Y", "Q", "U", "I", "R", "H", "X", "L", "N", "F", "T", "G", "K", "D", "C", "M", "W", "B"]
+###rotor5 = ["V", "Z", "B", "R", "G", "I", "T", "Y", "U", "P", "S", "D", "N", "H", "L", "X", "A", "W", "M", "J", "Q", "O", "F", "E", "C", "K"]
+###rotor6 = ["J", "P", "G", "V", "O", "U", "M", "F", "Y", "Q", "B", "E", "N", "H", "Z", "R", "D", "K", "A", "S", "X", "L", "I", "C", "T", "W"]
+###rotor7 = ["N", "Z", "J", "H", "G", "R", "C", "X", "M", "Y", "S", "W", "B", "O", "U", "F", "A", "I", "V", "L", "P", "E", "K", "Q", "D", "T"]
+###rotor8 = ["F", "K", "Q", "H", "T", "L", "X", "O", "C", "B", "J", "S", "P", "D", "Z", "R", "A", "M", "E", "W", "N", "I", "U", "Y", "G", "V"]
+
+while len(rotorOrder) < 3:
+    try:
+        rotorOrderInput = int(input(f"Enter a rotor to be placed in position {counter} (remaining rotors {rotorsLeft}): "))
+        if rotorOrderInput in rotorsLeft:
+            rotorOrder.append(rotorOrderInput)
+            rotorsLeft.remove(rotorOrderInput)
+            counter += 1
+
+    except ValueError:
+        continue
+
+
+for rotor, position in rotors.items():
+    while position < 1 or position > 26:
+        try:
+            position = int(input(f"Enter a position for rotor {rotor} (1 - 26): "))
+        except ValueError:
+            continue
+    rotors[rotor]= position
+
+print(rotorOrder)
+print(text2encrypt)
+print(text2encryptSplit)
+print(rotors)
