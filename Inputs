@@ -1,5 +1,17 @@
-text2encrypt = input("Enter the text to be encrypted: ").upper()
+def advanceRotor(rotor):
+    return rotor[-1:] + rotor[:-1]
+
+encryptOrDecrypt = ''
+while encryptOrDecrypt == '':
+    encryptOrDecrypt = input("Would you like to encrypt or decrypt a message? (E/D) : ").upper()
+    if encryptOrDecrypt != "E" and encryptOrDecrypt != "D":
+        encryptOrDecrypt = ''
+
+text2encrypt = input("Enter the text to be converted: ").upper()
 text2encryptSplit = []
+encryptedSplit = []
+encryptedText = ""
+decryptedText = ""
 for letter in text2encrypt:
     if letter not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
         text2encryptSplit.append('X')
@@ -10,6 +22,9 @@ rotorsLeft = [1, 2, 3]
 rotorOrder = []
 rotorOrderInput = 0
 counter = 1
+alphanums = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9, "K": 10, "L": 11, "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "R": 17, "S": 18, "T": 19, "U": 20, "V": 21, "W": 22, "X": 23, "Y": 24, "Z": 25}
+ankeys = list(alphanums.keys())
+anvals = list(alphanums.values())
 rotor1 = ["E", "K", "M", "F", "L", "G", "D", "Q", "V", "Z", "N", "T", "O", "W", "Y", "H", "X", "U", "S", "P", "A", "I", "B", "R", "C", "J"]
 rotor2 = ["A", "J", "D", "K", "S", "I", "R", "U", "X", "B", "L", "H", "W", "T", "M", "C", "Q", "G", "Z", "N", "P", "Y", "F", "V", "O", "E"]
 rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "T", "X", "V", "Z", "N", "Y", "E", "I", "W", "G", "A", "K", "M", "U", "S", "Q", "O"]
@@ -20,16 +35,16 @@ rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "T", "X", "V", "Z", "N", 
 ###rotor7 = ["N", "Z", "J", "H", "G", "R", "C", "X", "M", "Y", "S", "W", "B", "O", "U", "F", "A", "I", "V", "L", "P", "E", "K", "Q", "D", "T"]
 ###rotor8 = ["F", "K", "Q", "H", "T", "L", "X", "O", "C", "B", "J", "S", "P", "D", "Z", "R", "A", "M", "E", "W", "N", "I", "U", "Y", "G", "V"]
 
-while len(rotorOrder) < 3:
-    try:
-        rotorOrderInput = int(input(f"Enter a rotor to be placed in position {counter} (remaining rotors {rotorsLeft}): "))
-        if rotorOrderInput in rotorsLeft:
-            rotorOrder.append(rotorOrderInput)
-            rotorsLeft.remove(rotorOrderInput)
-            counter += 1
-
-    except ValueError:
-        continue
+###IDICATE WHICH ORDER ROTORS SHOULD BE ---- NOT YET IN USE###
+###while len(rotorOrder) < 3:
+###    try:
+###        rotorOrderInput = int(input(f"Enter a rotor to be placed in position {counter} (remaining rotors {rotorsLeft}): "))
+###        if rotorOrderInput in rotorsLeft:
+###            rotorOrder.append(rotorOrderInput)
+###            rotorsLeft.remove(rotorOrderInput)
+###            counter += 1
+###    except ValueError:
+###        continue
 
 
 for rotor, position in rotors.items():
@@ -38,9 +53,17 @@ for rotor, position in rotors.items():
             position = int(input(f"Enter a position for rotor {rotor} (1 - 26): "))
         except ValueError:
             continue
-    rotors[rotor]= position
+    rotors[rotor] = position
 
-print(rotorOrder)
-print(text2encrypt)
-print(text2encryptSplit)
-print(rotors)
+if encryptOrDecrypt == "D":
+    for letter in text2encryptSplit:
+        decryptedText += ankeys[rotor1.index(letter)]
+        rotor1 = advanceRotor(rotor1)
+else:
+    for letter in text2encryptSplit:
+        encryptedText += rotor1[alphanums[letter]]
+        rotor1 = advanceRotor(rotor1)
+
+
+print(encryptedText)
+print(decryptedText)
