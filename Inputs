@@ -1,98 +1,116 @@
+from tkinter import *
+
+root = Tk()
+root.title("ENCRYPTOR")
+widthVar = 55
 
 def advanceRotor(rotor):
     return rotor[-1:] + rotor[:-1]
 
-encryptOrDecrypt = ''
-while encryptOrDecrypt == '':
-    encryptOrDecrypt = input("Would you like to encrypt or decrypt a message? (E/D) : ").upper()
-    if encryptOrDecrypt != "E" and encryptOrDecrypt != "D":
-        encryptOrDecrypt = ''
 
-text2encrypt = input("Enter the text to be converted: ").upper()
-text2encryptSplit = []
-encryptedSplit = []
-encryptedSplit2 = []
-decryptedSplit = []
-decryptedSplit2 = []
-encryptedText = ""
-decryptedText = ""
-for letter in text2encrypt:
-    if letter not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-        text2encryptSplit.append('X')
-    else:
-        text2encryptSplit.append(letter)
-rotors = {1: 0, 2: 0, 3: 0}
-rotorKeys = list(rotors.keys())
-rotorValues = list(rotors.values())
-rotorsLeft = [1, 2, 3]
-rotorOrder = []
-rotorOrderInput = 0
-counter = 1
-alphanums = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9, "K": 10, "L": 11, "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "R": 17, "S": 18, "T": 19, "U": 20, "V": 21, "W": 22, "X": 23, "Y": 24, "Z": 25}
-ankeys = list(alphanums.keys())
-anvals = list(alphanums.values())
-rotor1 = ["E", "K", "M", "F", "L", "G", "D", "Q", "V", "Z", "N", "T", "O", "W", "Y", "H", "X", "U", "S", "P", "A", "I", "B", "R", "C", "J"]
-rotor2 = ["A", "J", "D", "K", "S", "I", "R", "U", "X", "B", "L", "H", "W", "T", "M", "C", "Q", "G", "Z", "N", "P", "Y", "F", "V", "O", "E"]
-rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "T", "X", "V", "Z", "N", "Y", "E", "I", "W", "G", "A", "K", "M", "U", "S", "Q", "O"]
-###ROTORS NOT YET IN USE###
-###rotor4 = ["E", "S", "O", "V", "P", "Z", "J", "A", "Y", "Q", "U", "I", "R", "H", "X", "L", "N", "F", "T", "G", "K", "D", "C", "M", "W", "B"]
-###rotor5 = ["V", "Z", "B", "R", "G", "I", "T", "Y", "U", "P", "S", "D", "N", "H", "L", "X", "A", "W", "M", "J", "Q", "O", "F", "E", "C", "K"]
-###rotor6 = ["J", "P", "G", "V", "O", "U", "M", "F", "Y", "Q", "B", "E", "N", "H", "Z", "R", "D", "K", "A", "S", "X", "L", "I", "C", "T", "W"]
-###rotor7 = ["N", "Z", "J", "H", "G", "R", "C", "X", "M", "Y", "S", "W", "B", "O", "U", "F", "A", "I", "V", "L", "P", "E", "K", "Q", "D", "T"]
-###rotor8 = ["F", "K", "Q", "H", "T", "L", "X", "O", "C", "B", "J", "S", "P", "D", "Z", "R", "A", "M", "E", "W", "N", "I", "U", "Y", "G", "V"]
-
-###IDICATE WHICH ORDER ROTORS SHOULD BE ---- NOT YET IN USE###
-###while len(rotorOrder) < 3:
-###    try:
-###        rotorOrderInput = int(input(f"Enter a rotor to be placed in position {counter} (remaining rotors {rotorsLeft}): "))
-###        if rotorOrderInput in rotorsLeft:
-###            rotorOrder.append(rotorOrderInput)
-###            rotorsLeft.remove(rotorOrderInput)
-###            counter += 1
-###    except ValueError:
-###        continue
-
-
-for rotor, position in rotors.items():
-    while position < 1 or position > 26:
-        try:
-            position = int(input(f"Enter a position for rotor {rotor} (1 - 26): "))
-        except ValueError:
-            continue
-    rotors[rotor] = position
-
-for rotor in rotorKeys:
+def cryptor(text, eORd, rtr1, rtr2, rtr3):
+    text = text.upper()
+    textSplit = []
+    for letter in text:
+        if letter not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ ':
+            textSplit.append('X')
+        else:
+            textSplit.append(letter)
+    rotors = {1: rtr1, 2: rtr2, 3: rtr3}
+    rotorKeys = list(rotors.keys())
     counter = 1
-    if rotor == 1:
-        while rotors[rotor] > counter:
-            counter += 1
+    counter2 = 1
+    alphanums = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9, "K": 10, "L": 11,
+                 "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "R": 17, "S": 18, "T": 19, "U": 20, "V": 21, "W": 22,
+                 "X": 23, "Y": 24, "Z": 25, " ": 26}
+    ankeys = list(alphanums.keys())
+    rotor1 = ["E", "K", "M", "F", "L", "G", "D", "Q", "V", "Z", "N", "T", "O", "W", "Y", "H", "X", "U", "S", "P", "A",
+              "I", "B", "R", "C", "J", ' ']
+    rotor2 = ["A", "J", "D", "K", "S", "I", "R", "U", "X", "B", "L", "H", "W", "T", "M", "C", "Q", "G", "Z", "N", "P",
+              "Y", "F", "V", "O", "E", ' ']
+    rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "T", "X", "V", "Z", "N", "Y", "E", "I", "W", "G", "A", "K",
+              "M", "U", "S", "Q", "O", ' ']
+
+    for rotor in rotorKeys:
+        counter = 1
+        if rotor == 1:
+            while rotors[rotor] > counter:
+                counter += 1
+                rotor1 = advanceRotor(rotor1)
+        elif rotor == 2:
+            while rotors[rotor] > counter:
+                counter += 1
+                rotor2 = advanceRotor(rotor2)
+        elif rotor == 3:
+            while rotors[rotor] > counter:
+                counter += 1
+                rotor3 = advanceRotor(rotor3)
+    if eORd == "d":
+        text = ""
+        for letter in textSplit:
+            text += ankeys[rotor3.index(ankeys[rotor2.index(ankeys[rotor1.index(letter)])])]
             rotor1 = advanceRotor(rotor1)
-    elif rotor == 2:
-        while rotors[rotor] > counter:
             counter += 1
-            rotor2 = advanceRotor(rotor2)
-    elif rotor == 3:
-        while rotors[rotor] > counter:
+            if counter == 26:
+                rotor2 = advanceRotor(rotor2)
+                counter2 += 1
+                counter = 1
+                if counter2 == 26:
+                    rotor3 = advanceRotor(rotor3)
+                    counter2 = 1
+    else:
+        text = ""
+        for letter in textSplit:
+            text += rotor1[alphanums[rotor2[alphanums[rotor3[alphanums[letter]]]]]]
+            rotor1 = advanceRotor(rotor1)
             counter += 1
-            rotor3 = advanceRotor(rotor3)
+            if counter == 26:
+                rotor2 = advanceRotor(rotor2)
+                counter2 += 1
+                counter = 1
+                if counter2 == 26:
+                    rotor3 = advanceRotor(rotor3)
+                    counter2 = 1
+    textStringVar = StringVar()
+    textStringVar.set(text)
+    return textStringVar
 
 
-if encryptOrDecrypt == "D":
-    for letter in text2encryptSplit:
-        decryptedText += ankeys[rotor3.index(ankeys[rotor2.index(ankeys[rotor1.index(letter)])])]
-        rotor1 = advanceRotor(rotor1)
-        counter += 1
-        if counter == 26:
-            rotor2 = advanceRotor(rotor2)
-            counter = 1
-    print(decryptedText)
-else:
-    for letter in text2encryptSplit:
-        encryptedText += rotor1[alphanums[rotor2[alphanums[rotor3[alphanums[letter]]]]]]
-        rotor1 = advanceRotor(rotor1)
-        counter += 1
-        if counter == 26:
-            rotor2 = advanceRotor(rotor2)
-            counter = 1
-    print(encryptedText)
+def eButtonPressed():
+    rtr1 = int(rotor1.get())
+    rtr2 = int(rotor2.get())
+    rtr3 = int(rotor3.get())
+    enigmaOutputText = cryptor(text2crypt.get(), "e", rtr1, rtr2, rtr3)
+    enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
+    enigmaOutput.grid(row=5, columnspan=3)
 
+def dButtonPressed():
+    rtr1 = int(rotor1.get())
+    rtr2 = int(rotor2.get())
+    rtr3 = int(rotor3.get())
+    enigmaOutputText = cryptor(text2crypt.get(), "d", rtr1, rtr2, rtr3)
+    enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
+    enigmaOutput.grid(row=5, columnspan=3)
+
+
+text2crypt = Entry(root, width=widthVar, font="Courier")
+text2crypt.insert(0, "ENTER TEXT TO CRYPT HERE")
+text2crypt.grid(row=0, columnspan=3)
+rotor1Label = Label(root, text="ROTOR ONE").grid(row=1, column=0)
+rotor2Label = Label(root, text="ROTOR TWO").grid(row=1, column=1)
+rotor3Label = Label(root, text="ROTOR THREE").grid(row=1, column=2)
+rotor1 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
+rotor1.grid(row=2, column=0)
+rotor2 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
+rotor2.grid(row=2, column=1)
+rotor3 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
+rotor3.grid(row=2, column=2)
+eORdLabel = Label(root, text="Select to encrypt or decrypt the text:", font="Courier").grid(row=3, columnspan=3)
+eButton = Button(root, text="ENCRYPT", command=eButtonPressed, font="Courier").grid(row=4, column=0)
+dButton = Button(root, text="DECRYPT", command=dButtonPressed, font="Courier").grid(row=4, column=2)
+enigmaOutputText = StringVar()
+enigmaOutputText.set("CRYPTED TEXT WILL APPEAR HERE")
+enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
+enigmaOutput.grid(row=5, columnspan=3)
+
+root.mainloop()
