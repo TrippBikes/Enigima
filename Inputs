@@ -1,8 +1,13 @@
 from tkinter import *
 
+widthVar = 55
+widthVar2 = 90
+bgVar = "#437b8f"
+
 root = Tk()
 root.title("ENCRYPTOR")
-widthVar = 55
+root.configure(bg=bgVar)
+
 
 def advanceRotor(rotor):
     return rotor[-1:] + rotor[:-1]
@@ -95,37 +100,52 @@ def eButtonPressed():
     rtr2 = int(rotor2.get())
     rtr3 = int(rotor3.get())
     enigmaOutputText = cryptor(text2crypt.get(), "e", rtr1, rtr2, rtr3)
-    enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
-    enigmaOutput.grid(row=5, columnspan=3)
+    enigmaOutput = Entry(root,
+                         width=widthVar,
+                         font="Courier",
+                         state="readonly",
+                         textvariable=enigmaOutputText,
+                         justify="center",
+                         bg=bgVar)
+    enigmaOutput.grid(row=7, columnspan=3)
 
 def dButtonPressed():
     rtr1 = int(rotor1.get())
     rtr2 = int(rotor2.get())
     rtr3 = int(rotor3.get())
     enigmaOutputText = cryptor(text2crypt.get(), "d", rtr1, rtr2, rtr3)
-    enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
-    enigmaOutput.grid(row=5, columnspan=3)
+    enigmaOutput = Entry(root,
+                         width=widthVar,
+                         font="Courier",
+                         state="readonly",
+                         textvariable=enigmaOutputText,
+                         justify="center",
+                         bg=bgVar)
+    enigmaOutput.grid(row=7, columnspan=3)
 
-
-text2crypt = Entry(root, width=widthVar, font="Courier")
+border1 = Label(root, width=widthVar2, bg=bgVar).grid(row=0, columnspan=3)
+border2 = Label(root, width=widthVar2, bg=bgVar).grid(row=10, columnspan=3)
+border3 = Label(root, width=widthVar2, bg=bgVar).grid(row=8, columnspan=3)
+border4 = Label(root, width=widthVar2, bg=bgVar).grid(row=4, columnspan=3)
+text2crypt = Entry(root, width=widthVar, font="Courier", justify="center")
 text2crypt.insert(0, "ENTER TEXT TO CRYPT HERE")
-text2crypt.grid(row=0, columnspan=3)
-rotor1Label = Label(root, text="ROTOR ONE").grid(row=1, column=0)
-rotor2Label = Label(root, text="ROTOR TWO").grid(row=1, column=1)
-rotor3Label = Label(root, text="ROTOR THREE").grid(row=1, column=2)
+text2crypt.grid(row=1, columnspan=3)
+rotor1Label = Label(root, text="ROTOR ONE", bg=bgVar).grid(row=2, column=0)
+rotor2Label = Label(root, text="ROTOR TWO", bg=bgVar).grid(row=2, column=1)
+rotor3Label = Label(root, text="ROTOR THREE", bg=bgVar).grid(row=2, column=2)
 rotor1 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
-rotor1.grid(row=2, column=0)
+rotor1.grid(row=3, column=0)
 rotor2 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
-rotor2.grid(row=2, column=1)
+rotor2.grid(row=3, column=1)
 rotor3 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
-rotor3.grid(row=2, column=2)
-eORdLabel = Label(root, text="Select to encrypt or decrypt the text:", font="Courier").grid(row=3, columnspan=3)
-eButton = Button(root, text="ENCRYPT", command=eButtonPressed, font="Courier").grid(row=4, column=0)
-dButton = Button(root, text="DECRYPT", command=dButtonPressed, font="Courier").grid(row=4, column=2)
+rotor3.grid(row=3, column=2)
+eORdLabel = Label(root, text="Select to encrypt or decrypt the text:", font="Courier", bg=bgVar).grid(row=5, columnspan=3)
+eButton = Button(root, text="ENCRYPT", command=eButtonPressed, font="Courier").grid(row=6, column=0)
+dButton = Button(root, text="DECRYPT", command=dButtonPressed, font="Courier").grid(row=6, column=2)
 enigmaOutputText = StringVar()
 enigmaOutputText.set("CRYPTED TEXT WILL APPEAR HERE")
-enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
-enigmaOutput.grid(row=5, columnspan=3)
-helpButton = Button(root, text="Uhm.... What?", command=uhhmmmmWhat, font="courier").grid(row=6, column=1)
+enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText, justify="center", bg=bgVar)
+enigmaOutput.grid(row=7, columnspan=3)
+helpButton = Button(root, text="Uhm.... What?", command=uhhmmmmWhat, font="courier").grid(row=9, column=2)
 
 root.mainloop()
