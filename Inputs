@@ -1,8 +1,11 @@
 from tkinter import *
+from tkinter.font import Font
 
 widthVar = 55
 widthVar2 = 90
-bgVar = "#437b8f"
+bgVar = "#8a9aab"
+fontVar = "Courier 12 bold"
+spinBoxVar = "Courier 17 bold"
 
 root = Tk()
 root.title("ENCRYPTOR")
@@ -28,10 +31,9 @@ def uhhmmmmWhat():
 
 
 def cryptor(text, eORd, rtr1, rtr2, rtr3):
-    text = text.upper()
     textSplit = []
     for letter in text:
-        if letter not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ ':
+        if letter not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz!.?,"':
             textSplit.append('X')
         else:
             textSplit.append(letter)
@@ -41,14 +43,20 @@ def cryptor(text, eORd, rtr1, rtr2, rtr3):
     counter2 = 1
     alphanums = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9, "K": 10, "L": 11,
                  "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "R": 17, "S": 18, "T": 19, "U": 20, "V": 21, "W": 22,
-                 "X": 23, "Y": 24, "Z": 25, " ": 26}
+                 "X": 23, "Y": 24, "Z": 25, " ": 26, 'a': 27, 'b': 28, 'c': 29, 'd': 30, 'e': 31, 'f': 32, 'g': 33,
+                 'h': 34, 'i': 35, 'j': 36, 'k': 37, 'l': 38, 'm': 39, 'n': 40, 'o': 41, 'p': 42, 'q': 43, 'r': 44,
+                 's': 45, 't': 46, 'u': 47, 'v': 48, 'w': 49, 'x': 50, 'y': 51, 'z': 52, "!": 53, ".": 54, "?": 55,
+                 ",": 56, '"': 57}
     ankeys = list(alphanums.keys())
     rotor1 = ["E", "K", "M", "F", "L", "G", "D", "Q", "V", "Z", "N", "T", "O", "W", "Y", "H", "X", "U", "S", "P", "A",
-              "I", "B", "R", "C", "J", ' ']
+              "I", "B", "R", "C", "J", ' ', 'e', 'k', 'm', 'f', 'l', 'g', 'd', 'q', 'v', 'z', 'n', 't', 'o', 'w', 'y',
+              'h', 'x', 'u', 's', 'p', 'a', 'i', 'b', 'r', 'c', 'j', "!", ".", "?", ",", '"']
     rotor2 = ["A", "J", "D", "K", "S", "I", "R", "U", "X", "B", "L", "H", "W", "T", "M", "C", "Q", "G", "Z", "N", "P",
-              "Y", "F", "V", "O", "E", ' ']
-    rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "T", "X", "V", "Z", "N", "Y", "E", "I", "W", "G", "A", "K",
-              "M", "U", "S", "Q", "O", ' ']
+              "Y", "F", "V", "O", "E", ' ', 'a', 'j', 'd', 'k', 's', "!", ".", "?", ",", '"', 'i', 'r', 'u', 'x', 'b', 'l', 'h', 'w', 't', 'm',
+              'c', 'q', 'g', 'z', 'n', 'p', 'y', 'f', 'v', 'o', 'e']
+    rotor3 = ["B", "D", "F", "H", "J", "L", "C", "P", "R", "!", ".", "?", ",", '"', "T", "X", "V", "Z", "N", "Y", "E", "I", "W", "G", "A", "K",
+              "M", "U", "S", "Q", "O", ' ', 'b', 'd', 'f', 'h', 'j', 'l', 'c', 'p', 'r', 't', 'x', 'v', 'z', 'n', 'y',
+              'e', 'i', 'w', 'g', 'a', 'k', 'm', 'u', 's', 'q', 'o']
 
     for rotor in rotorKeys:
         counter = 1
@@ -70,11 +78,11 @@ def cryptor(text, eORd, rtr1, rtr2, rtr3):
             text += ankeys[rotor3.index(ankeys[rotor2.index(ankeys[rotor1.index(letter)])])]
             rotor1 = advanceRotor(rotor1)
             counter += 1
-            if counter == 26:
+            if counter == 56:
                 rotor2 = advanceRotor(rotor2)
                 counter2 += 1
                 counter = 1
-                if counter2 == 26:
+                if counter2 == 56:
                     rotor3 = advanceRotor(rotor3)
                     counter2 = 1
     else:
@@ -83,11 +91,11 @@ def cryptor(text, eORd, rtr1, rtr2, rtr3):
             text += rotor1[alphanums[rotor2[alphanums[rotor3[alphanums[letter]]]]]]
             rotor1 = advanceRotor(rotor1)
             counter += 1
-            if counter == 26:
+            if counter == 56:
                 rotor2 = advanceRotor(rotor2)
                 counter2 += 1
                 counter = 1
-                if counter2 == 26:
+                if counter2 == 56:
                     rotor3 = advanceRotor(rotor3)
                     counter2 = 1
     textStringVar = StringVar()
@@ -102,7 +110,7 @@ def eButtonPressed():
     enigmaOutputText = cryptor(text2crypt.get(), "e", rtr1, rtr2, rtr3)
     enigmaOutput = Entry(root,
                          width=widthVar,
-                         font="Courier",
+                         font=fontVar,
                          state="readonly",
                          textvariable=enigmaOutputText,
                          justify="center",
@@ -116,7 +124,7 @@ def dButtonPressed():
     enigmaOutputText = cryptor(text2crypt.get(), "d", rtr1, rtr2, rtr3)
     enigmaOutput = Entry(root,
                          width=widthVar,
-                         font="Courier",
+                         font=fontVar,
                          state="readonly",
                          textvariable=enigmaOutputText,
                          justify="center",
@@ -127,25 +135,25 @@ border1 = Label(root, width=widthVar2, bg=bgVar).grid(row=0, columnspan=3)
 border2 = Label(root, width=widthVar2, bg=bgVar).grid(row=10, columnspan=3)
 border3 = Label(root, width=widthVar2, bg=bgVar).grid(row=8, columnspan=3)
 border4 = Label(root, width=widthVar2, bg=bgVar).grid(row=4, columnspan=3)
-text2crypt = Entry(root, width=widthVar, font="Courier", justify="center")
+text2crypt = Entry(root, width=widthVar, font=fontVar, justify="center")
 text2crypt.insert(0, "ENTER TEXT TO CRYPT HERE")
 text2crypt.grid(row=1, columnspan=3)
 rotor1Label = Label(root, text="ROTOR ONE", bg=bgVar).grid(row=2, column=0)
 rotor2Label = Label(root, text="ROTOR TWO", bg=bgVar).grid(row=2, column=1)
 rotor3Label = Label(root, text="ROTOR THREE", bg=bgVar).grid(row=2, column=2)
-rotor1 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
+rotor1 = Spinbox(root, from_=1, to=57, wrap=True, state="readonly", width=2, font=spinBoxVar)
 rotor1.grid(row=3, column=0)
-rotor2 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
+rotor2 = Spinbox(root, from_=1, to=57, wrap=True, state="readonly", width=2, font=spinBoxVar)
 rotor2.grid(row=3, column=1)
-rotor3 = Spinbox(root, from_=1, to=27, wrap=True, state="readonly")
+rotor3 = Spinbox(root, from_=1, to=57, wrap=True, state="readonly", width=2, font=spinBoxVar)
 rotor3.grid(row=3, column=2)
-eORdLabel = Label(root, text="Select to encrypt or decrypt the text:", font="Courier", bg=bgVar).grid(row=5, columnspan=3)
-eButton = Button(root, text="ENCRYPT", command=eButtonPressed, font="Courier").grid(row=6, column=0)
-dButton = Button(root, text="DECRYPT", command=dButtonPressed, font="Courier").grid(row=6, column=2)
+eORdLabel = Label(root, text="Select to encrypt or decrypt the text:", font=fontVar, bg=bgVar).grid(row=5, columnspan=3)
+eButton = Button(root, text="ENCRYPT", command=eButtonPressed, font=fontVar).grid(row=6, column=0)
+dButton = Button(root, text="DECRYPT", command=dButtonPressed, font=fontVar).grid(row=6, column=2)
 enigmaOutputText = StringVar()
 enigmaOutputText.set("CRYPTED TEXT WILL APPEAR HERE")
-enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText, justify="center", bg=bgVar)
+enigmaOutput = Entry(root, width=widthVar, font=fontVar, state="readonly", textvariable=enigmaOutputText, justify="center", bg=bgVar)
 enigmaOutput.grid(row=7, columnspan=3)
-helpButton = Button(root, text="Uhm.... What?", command=uhhmmmmWhat, font="courier").grid(row=9, column=2)
+helpButton = Button(root, text="Uhm.... What?", command=uhhmmmmWhat, font=fontVar).grid(row=9, column=2)
 
 root.mainloop()
