@@ -1,3 +1,4 @@
+
 def advanceRotor(rotor):
     return rotor[-1:] + rotor[:-1]
 
@@ -21,6 +22,8 @@ for letter in text2encrypt:
     else:
         text2encryptSplit.append(letter)
 rotors = {1: 0, 2: 0, 3: 0}
+rotorKeys = list(rotors.keys())
+rotorValues = list(rotors.values())
 rotorsLeft = [1, 2, 3]
 rotorOrder = []
 rotorOrderInput = 0
@@ -58,6 +61,22 @@ for rotor, position in rotors.items():
             continue
     rotors[rotor] = position
 
+for rotor in rotorKeys:
+    counter = 1
+    if rotor == 1:
+        while rotors[rotor] > counter:
+            counter += 1
+            rotor1 = advanceRotor(rotor1)
+    elif rotor == 2:
+        while rotors[rotor] > counter:
+            counter += 1
+            rotor2 = advanceRotor(rotor2)
+    elif rotor == 3:
+        while rotors[rotor] > counter:
+            counter += 1
+            rotor3 = advanceRotor(rotor3)
+
+
 if encryptOrDecrypt == "D":
     for letter in text2encryptSplit:
         decryptedText += ankeys[rotor3.index(ankeys[rotor2.index(ankeys[rotor1.index(letter)])])]
@@ -76,3 +95,4 @@ else:
             rotor2 = advanceRotor(rotor2)
             counter = 1
     print(encryptedText)
+
