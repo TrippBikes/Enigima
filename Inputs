@@ -8,6 +8,20 @@ def advanceRotor(rotor):
     return rotor[-1:] + rotor[:-1]
 
 
+def uhhmmmmWhat():
+    help = Tk()
+    help.title("HELP")
+    help1 = Label(help, text="Texted entered into the top field").pack()
+    help2 = Label(help, text="will be encrypted (or decrypted)").pack()
+    help3 = Label(help, text="and displayed to the bottom field.").pack()
+    help4 = Label(help, text=" ").pack()
+    help5 = Label(help, text="Depending how you set the rotors").pack()
+    help6 = Label(help, text="the encryption path with change,").pack()
+    help7 = Label(help, text="encrypted text can only be decrypted").pack()
+    help8 = Label(help, text="with the same rotor settings.").pack()
+
+
+
 def cryptor(text, eORd, rtr1, rtr2, rtr3):
     text = text.upper()
     textSplit = []
@@ -112,5 +126,6 @@ enigmaOutputText = StringVar()
 enigmaOutputText.set("CRYPTED TEXT WILL APPEAR HERE")
 enigmaOutput = Entry(root, width=widthVar, font="Courier", state="readonly", textvariable=enigmaOutputText)
 enigmaOutput.grid(row=5, columnspan=3)
+helpButton = Button(root, text="Uhm.... What?", command=uhhmmmmWhat, font="courier").grid(row=6, column=1)
 
 root.mainloop()
